@@ -1,7 +1,7 @@
 <?php
-include_once "/opt/lampp/htdocs/tienda_botimendo/view/html/header.php";
-include_once "/opt/lampp/htdocs/tienda_botimendo/view/html/nav.php";
-require_once "/opt/lampp/htdocs/tienda_botimendo/Controllers/ProductoController.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
+require_once "/opt/lampp/htdocs/project-php/Controllers/ProductoController.php";
 ?>
 <div class="container m-5 w-75 row d-flex flex-column">
     <form action="../../Controllers/ProveedorController.php" method="POST" enctype="multipart/form-data" id="formulario" class="d-flex needs-validation row">
@@ -31,4 +31,4 @@ require_once "/opt/lampp/htdocs/tienda_botimendo/Controllers/ProductoController.
             </div>
     </form>
 </div>
-<?php require "/opt/lampp/htdocs/tienda_botimendo/html/footer.php"; ?>
+<?php require "/opt/lampp/htdocs/project-php/html/footer.php"; ?>

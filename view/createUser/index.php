@@ -1,7 +1,7 @@
 <?php
-include_once "/opt/lampp/htdocs/tienda_botimendo/view/html/header.php";
-include_once "/opt/lampp/htdocs/tienda_botimendo/view/html/nav.php";
-include_once "/opt/lampp/htdocs/tienda_botimendo/Controllers/UsuarioController.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
+include_once "/opt/lampp/htdocs/project-php/Controllers/UsuarioController.php";
 
 
 $header =  [
@@ -75,5 +75,5 @@ $sql = 'SELECT `nombre`, `apellido`,`usuario` FROM Empleado INNER JOIN Usuario O
     </div>
 </div>
 <?php
-include_once "/opt/lampp/htdocs/tienda_botimendo/view/html/footer.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/footer.php";
 ?>

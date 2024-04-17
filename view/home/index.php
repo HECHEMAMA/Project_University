@@ -1,6 +1,6 @@
 <?php
-include "/opt/lampp/htdocs/tienda_botimendo/view/html/header.php";
-include "/opt/lampp/htdocs/tienda_botimendo/view/html/nav.php";
+include "/opt/lampp/htdocs/project-php/view/html/header.php";
+include "/opt/lampp/htdocs/project-php/view/html/nav.php";
 ?>
 
 <body id="page-top">

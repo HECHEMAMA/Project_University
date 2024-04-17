@@ -1,7 +1,7 @@
 <?php
-include "/opt/lampp/htdocs/tienda_botimendo/view/html/header.php";
-include "/opt/lampp/htdocs/tienda_botimendo/view/html/nav.php";
-require "/opt/lampp/htdocs/tienda_botimendo/Controllers/ProveedorController.php";
+include "/opt/lampp/htdocs/project-php/view/html/header.php";
+include "/opt/lampp/htdocs/project-php/view/html/nav.php";
+require "/opt/lampp/htdocs/project-php/Controllers/ProveedorController.php";
 
 ?>
 <div class="container py-5 d-flex flex-column">
@@ -28,4 +28,4 @@ require "/opt/lampp/htdocs/tienda_botimendo/Controllers/ProveedorController.php"
     <i class="fas fa-angle-up"></i>
 </a>
 </div>
-<?php include_once "/opt/lampp/htdocs/tienda_botimendo/view/html/footer.php" ?>
+<?php include_once "/opt/lampp/htdocs/project-php/view/html/footer.php" ?>

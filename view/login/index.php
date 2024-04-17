@@ -1,4 +1,4 @@
-<?php include "/opt/lampp/htdocs/tienda_botimendo/view/html/header.php"; ?>
+<?php include "/opt/lampp/htdocs/project-php/view/html/header.php"; ?>
 
 <body class="bg-gradient-light">
     <div class="container">

@@ -1,7 +1,8 @@
 <?php
-include "../html/header.php";
-include "../html/nav.php";
-require "../../Controllers/utils.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
+include_once "/opt/lampp/htdocs/project-php/Controllers/VentaController.php";
+include_once "/opt/lampp/htdocs/project-php/Controllers/utils.php";
 $header = [
     "",
     "Nombre del Producto",
@@ -102,3 +103,4 @@ $total = [
         </div>
     </div>
 </form>
+<?php include_once "/opt/lampp/htdocs/project-php/view/html/footer.php"; ?>
