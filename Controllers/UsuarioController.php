@@ -309,9 +309,9 @@ class UsuarioController
     }
 
     /**
-     * @method Ejecuta_Accion
-     * Este metodo es el que esta en el @param __contructor 
-     * Llama a los metodos correspondientes
+     * @method Ejecuta_Accion 
+     * ~~> Este metodo es el que esta en el @param __contructor 
+     * ==> Llama a los metodos correspondientes
      */
     private function ejecutarAccion()
     {

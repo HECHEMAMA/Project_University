@@ -1,7 +1,7 @@
 <?php
-include "/opt/lampp/htdocs/project-php/view/html/header.php";
-include "/opt/lampp/htdocs/project-php/view/html/nav.php";
-require "/opt/lampp/htdocs/project-php/Controllers/ProveedorController.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
+include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
+include_once "/opt/lampp/htdocs/project-php/Controllers/ProveedorController.php";
 
 ?>
 <div class="container py-5 d-flex flex-column">

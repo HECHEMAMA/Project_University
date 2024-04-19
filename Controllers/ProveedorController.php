@@ -22,6 +22,16 @@ class ProveedorController
         $proveedores = Proveedor::mostrarProveedores();
         return Generador::tablas($header, $proveedores, true, true, "proveedor");
     }
+    public static function mostrarProveedorSection(){
+        $header = [
+            "",
+            "Proveedor",
+            "Teléfono",
+            "Ubicación",
+        ];
+        $proveedor = Proveedor::mostrarProveedores();
+        return Generador::tablas($header, $proveedor, false, false, "proveedor");
+    }
     public static function editarProveedor($id_proveedor)
     {
         var_dump($id_proveedor);

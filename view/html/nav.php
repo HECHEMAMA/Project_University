@@ -68,8 +68,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Datos</h6>
-                        <a class="collapse-item" href="../createUser/index.php">Crear Nuevo Usuario</a>
-                        <a class="collapse-item" href="../createUser/usuario.php">Usuarios</a>
+                        <!-- <a class="collapse-item" href="../createUser/index.php">Crear Nuevo Usuario</a> -->
+                        <a class="collapse-item" href="../createUser/usuario.php">Empleados</a>
                         <!-- <a class="collapse-item" href="../createUser/roles.php">Roles</a> -->
                     </div>
                 </div>

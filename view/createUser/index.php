@@ -2,14 +2,6 @@
 include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
 include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
 include_once "/opt/lampp/htdocs/project-php/Controllers/UsuarioController.php";
-
-
-$header =  [
-    "Nombre",
-    "Apellido",
-    "Usuario"
-];
-$sql = 'SELECT `nombre`, `apellido`,`usuario` FROM Empleado INNER JOIN Usuario ON Empleado.fk_usuario = Usuario.cedula';
 ?>
 <div class="container m-5 w-75 row">
     <div class="">
