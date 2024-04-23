@@ -1,5 +1,5 @@
 <?php
-
+render('Conexion', ['Models']);
 /*----- Tabla Venta -----*/
 // id_venta INT PRIMARY KEY
 // fk_producto VARCHAR(7) Este seria el codigo del producto
@@ -15,12 +15,4 @@
 
 class VentaModel
 {
-    private $conn;
-
-    
-    private function Conexion()
-    {
-        include_once "./Conexion.php";
-        $this->conn = new Conexion;
-    }
 }

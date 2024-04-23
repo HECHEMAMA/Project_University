@@ -1,5 +1,6 @@
 <?php
-include_once "/opt/lampp/htdocs/tienda_botimendo/Models/Conexion.php";
+// include_once "/opt/lampp/htdocs/tienda_botimendo/Models/Conexion.php";
+render('Conexion', ['Models']);
 /**
  * TABLA PROVEEDOR DB
  * id_proveedor (PK)
@@ -16,15 +17,15 @@ class Proveedor
 
     private function setNombre()
     {
-        $this->nombre_proveedor = Text::postAsignar('nombre');
+        $this->nombre_proveedor = postAsignar('nombre');
     }
     private function setDireccion()
     {
-        $this->ubicacion_proveedor = Text::postAsignar('direccion');
+        $this->ubicacion_proveedor = postAsignar('direccion');
     }
     private function setTelefono()
     {
-        $this->telefono_proveedor = Text::postAsignar('telefono');
+        $this->telefono_proveedor = postAsignar('telefono');
     }
     private function asignarValores()
     {

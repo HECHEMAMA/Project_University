@@ -1,7 +1,8 @@
 <?php
-require "/opt/lampp/htdocs/project-php/Models/Conexion.php";
+render('Conexion', ['Models']);
 
-class Login{
+class Login
+{
 
     public static function buscarUsuario($valor)
     {

@@ -3,7 +3,8 @@
 /**
  * Hacemos uso de la clase Conexion con sus metodos estaticos
  */
-include_once "/opt/lampp/htdocs/tienda_botimendo/Models/Conexion.php";
+// require "/opt/lampp/htdocs/tienda_botimendo/Models/Conexion.php";
+render('Conexion', ['Models']);
 class Usuario
 {
     /**
@@ -43,7 +44,7 @@ class Usuario
             throw new Exception("ERROR no se pudo realizar la consulta de mostrar los usuarios " . $e->getMessage(), 1);
         }
     }
-    public static function mostrarUsuarios()
+    public static function mostrarEmpleados(): array
     {
         try {
             $sql = 'SELECT cedula AS id, nombre, apellido, telefono, direccion, Rol.tipo_rol FROM Usuario INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol WHERE Rol.tipo_rol = "administrador" OR Rol.tipo_rol = "empleado" ORDER BY cedula ASC';
@@ -53,8 +54,17 @@ class Usuario
             throw new Exception("Error al mostrar los usuario", 1);
         }
     }
-
-    public static function buscarUsuario($valor)
+    public static function obtenerClientes(): array
+    {
+        $sql = 'SELECT cedula AS id,nombre, apellido, telefono, direccion FROM Usuario INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol WHERE Rol.tipo_rol = "cliente"';
+        try {
+            $respuesta = Conexion::query($sql, []);
+            return $respuesta;
+        } catch (PDOException $e) {
+            throw new Exception("Error al mostrar los Clientes", 1);
+        }
+    }
+    public static function buscarUsuario($valor): array
     {
         try {
             $sql = "SELECT * FROM Empleado WHERE usuario = ?;";
@@ -65,7 +75,7 @@ class Usuario
         }
     }
 
-    public static function buscarCedula(array $cedula)
+    public static function buscarCedula(array $cedula): array
     {
         try {
             $sql = "SELECT * FROM Usuario WHERE cedula = ?";

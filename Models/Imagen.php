@@ -40,14 +40,14 @@ class Imagen
 
     private function setImagenBlob($string)
     {
-        $verificar = text::file($string);
+        $verificar = multimedia($string);
         if ($verificar) {
-            if (Multimedia::size($string) < 41943040) {
-                $this->imagen_blob = Text::fileAsignar($string);
+            if (size($string) < 41943040) {
+                $this->imagen_blob = fileAsignar($string);
             } else {
                 return;
             }
-            $this->imagen_blob = Multimedia::convertirBinario($this->imagen_blob);
+            $this->imagen_blob = convertirBinario($this->imagen_blob);
         } else {
             throw new Exception("Variable \$_FILE esta vacia", 1);
             
@@ -55,9 +55,9 @@ class Imagen
     }
     private function setNombreImagen($string)
     {
-        $valor = Text::post($string);
+        $valor = post($string);
         if ($valor) {
-            $this->nombre = Text::postAsignar($string);
+            $this->nombre = postAsignar($string);
         }
     }
     private function getNombreImagen()
