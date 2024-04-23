@@ -1,21 +1,19 @@
 <?php
-// require "/opt/lampp/htdocs/tienda_botimendo/Controllers/utils.php";
-require "/opt/lampp/htdocs/tienda_botimendo/Controllers/ProveedorController.php";
-require "/opt/lampp/htdocs/tienda_botimendo/Controllers/UsuarioController.php";
+require 'ClienteController.php';
+require 'UsuarioController.php';
+require 'ProveedorController.php';
+require 'ProductoController.php';
 
 
-if (Text::post('id') && Text::post('accion')) {
-    $modificacion = new ModificarControllers;
+
+if (post('id') && post('accion')) {
+    $modificacion = new ModificarControllers(postAsignar('accion'), postAsignar('id'));
 }
 
 class ModificarControllers
 {
-    private string $accion;
-    private $id;
-    public function __construct()
+    public function __construct(private $accion, private $id)
     {
-        $this->accion = Text::postAsignar('accion');
-        $this->id = Text::postAsignar('id');
         $this->ejecutarAccion();
     }
 
@@ -25,41 +23,15 @@ class ModificarControllers
     }
     private function ejecutarAccion()
     {
-        switch ($this->accion) {
-                // Usuario
-            case 'borrar-cliente':
-                echo "borrar Cliente";
-                break;
-            case 'editar-cliente':
-                echo "editar Cliente";
-                break;
-                // Empleado 
-            case 'borrar-empleado':
-                // echo "borrar Empleado";
-                UsuarioController::borrarEmpleado($this->getId());
-                break;
-            case 'editar-empleado':
-                // echo "editar Empleado";
-                UsuarioController::editarEmpleado($this->getId());
-                break;
-                // Proveedor
-            case 'borrar-proveedor':
-                // echo "borrar Proveedor";
-                ProveedorController::borrarProveedor($this->getId());
-                break;
-            case 'editar-proveedor':
-                // echo "editar Proveedor";
-                ProveedorController::editarProveedor($this->getId());
-                break;
-                // Producto
-            case 'borrar-producto':
-                echo "borrar Producto";
-                break;
-            case 'editar-producto':
-                echo "editar Producto";
-                break;
-            default:
-                break;
-        }
+        match ($this->accion) {
+            'borrar-cliente'   => ClienteController::borrarCliente($this->getId()),
+            'editar-cliente'   => ClienteController::editarCliente($this->getId()),
+            'borrar-empleado'  => UsuarioController::borrarEmpleado($this->getId()),
+            'editar-empleado'  => UsuarioController::editarEmpleado($this->getId()),
+            'borrar-proveedor' => ProveedorController::borrarProveedor($this->getId()),
+            'editar-proveedor' => ProveedorController::editarProveedor($this->getId()),
+            'borrar-producto'  => ProductoController::borrarProducto($this->getId()),
+            'editar-producto'  => ProductoController::editarProducto($this->getId()),
+        };
     }
 }

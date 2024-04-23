@@ -1,7 +1,7 @@
 <?php
-require "/opt/lampp/htdocs/tienda_botimendo/Models/Usuario.php";
-include_once "/opt/lampp/htdocs/tienda_botimendo/Controllers/utils.php";
-
+require "render.php";
+render('utils',['Controllers']);
+render('Usuario', ['Models']);
 /**
  * @param REFACTORIZAR_CLASE
  * @param DIVIDIR_CLASE
@@ -68,14 +68,12 @@ class UsuarioController
      * - mostrar-empleados
      * ============================================================================================
      */
-    private string $accion;
 
     /**
      * @param Inicializa_Variable $accion
      */
-    public function __construct($accion)
+    public function __construct(private string $accion)
     {
-        $this->accion = $accion;
         $this->ejecutarAccion();
     }
 
@@ -85,31 +83,31 @@ class UsuarioController
      */
     private function setCedula($string)
     {
-        $string = Text::eliminarLetras($string);
+        $string = eliminarLetras($string);
         $this->cedula = $string;
     }
     // Asignando Valor a Nombre
     private function setNombre($string)
     {
-        $string = Text::firstWord(Text::eliminarNumeros($string));
+        $string = firstWord(eliminarNumeros($string));
         $this->nombre = $string;
     }
     // Asignando Valor a Apellido
     private function setApellido($string)
     {
-        $string = Text::firstWord(Text::eliminarNumeros($string));
+        $string = firstWord(eliminarNumeros($string));
         $this->apellido = $string;
     }
     // Asignando Valor a Telefono
     private function setTelefono($string)
     {
-        $string = Text::eliminarLetras($string);
+        $string = eliminarLetras($string);
         $this->telefono = $string;
     }
     // Asignando Valor a Direccion
     private function setDireccion($string)
     {
-        $string = Text::inicialesMayusculas(Text::eliminarNumeros($string));
+        $string = inicialesMayusculas(eliminarNumeros($string));
         $this->direccion = $string;
     }
     // Asignando Valor a Tipo
@@ -119,7 +117,7 @@ class UsuarioController
     }
     private function setUsername($string)
     {
-        $string = Text::lower($string);
+        $string = lower($string);
         $this->username = $string;
     }
     private function setPassword($string)
@@ -207,7 +205,7 @@ class UsuarioController
     private function crearUsuario()
     {
         $this->setUsername($_POST['username']);
-        $this->setPassword(Text::hash($_POST['password']));
+        $this->setPassword(hashPassword($_POST['password']));
         try {
             $this->crearPersona();
             $sql = Usuario::agregarEmpleado([$this->getUsername(), $this->getPassword(), $this->getCedula()]);
@@ -225,9 +223,6 @@ class UsuarioController
      * @method Editar_Persona
      * Metodo para editar los datos de la persona
      */
-    private function editarPersona()
-    {
-    }
     /**
      * @method Editar_Usuario
      */
@@ -260,7 +255,7 @@ class UsuarioController
             "",
         ];
         $titulo = "Empleado";
-        return Generador::tablas($header, Usuario::mostrarUsuariosCreateUser(), true, true, $titulo);
+        return tablas($header, Usuario::mostrarUsuariosCreateUser(), true, true, $titulo);
     }
     public static function mostrarUsuarios()
     {
@@ -274,7 +269,7 @@ class UsuarioController
             "",
         ];
         $titulo = "empleado";
-        return Generador::tablas($header, Usuario::mostrarUsuarios(), true, true, $titulo);
+        return tablas($header, Usuario::mostrarEmpleados(), true, true, $titulo);
     }
     /**
      * @method Login
@@ -291,7 +286,7 @@ class UsuarioController
                     $contrasenaHash = $row['contrasena'];
                 }
             }
-            (Text::verify($this->getPassword(), $contrasenaHash))
+            (verify($this->getPassword(), $contrasenaHash))
                 ? header("location: ../view/home/index.php")
                 : header("location: ../view/login/index.php");
         } catch (PDOException $e) {
@@ -331,7 +326,7 @@ class UsuarioController
         }
     }
 }
-if (Text::post('accion') === true) {
+if (post('accion') === true) {
     $usuario = new UsuarioController($_POST['accion']);
 }
 

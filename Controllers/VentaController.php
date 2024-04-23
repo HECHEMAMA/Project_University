@@ -1,5 +1,7 @@
 <?php
-include_once "/opt/lampp/htdocs/project-php/Models/Venta.php";
+require 'render.php';
+render('utils',['Controllers']);
+render('Venta', ['Models']);
 
 class VentaController
 {

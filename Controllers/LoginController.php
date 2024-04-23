@@ -1,6 +1,7 @@
 <?php
-include_once "/opt/lampp/htdocs/project-php/Controllers/utils.php";
-include_once "/opt/lampp/htdocs/project-php/Models/Login.php";
+require "render.php";
+render('utils',['Controllers']);
+render('Login',['Models']);
 
 /**
  * @param Clase_Login 
@@ -11,13 +12,9 @@ include_once "/opt/lampp/htdocs/project-php/Models/Login.php";
  */
 class LoginController
 {
-    private string $username;
-    private string $password;
-    private string $accion;
-    public string $error = '';
-    public function __construct()
+    public static string $error = '';
+    public function __construct(private $accion, private string $username, private string $password)
     {
-        $this->accion = Text::postAsignar('accion');
         $this->ejecutarAccion();
     }
     private function logear()
@@ -30,7 +27,7 @@ class LoginController
                 foreach ($usuario as $row) {
                     $contrasenaHash = $row['contrasena'];
                 }
-                (Text::verify($this->password, $contrasenaHash))
+                (verify($this->password, $contrasenaHash))
                     ? header("location: ../view/home/index.php")
                     : $this->errorLogin($error);
             }
@@ -44,9 +41,9 @@ class LoginController
      */
     private function validarCampos()
     {
-        if (Text::post('username') && Text::post('password')) { // Verifica si tienen un valor devuele TRUE
-            $this->username = Text::postAsignar('username');
-            $this->password = Text::postAsignar('password');
+        if (post('username') && post('password')) { // Verifica si tienen un valor devuele TRUE
+            $this->username = postAsignar('username');
+            $this->password = postAsignar('password');
         } else {
             $this->errorLogin('Los campos son obligatorios.');
             return false;
@@ -61,11 +58,15 @@ class LoginController
      * devuelve el error en formato JSON
      * para mostrarlo como una alerta
      */
-    public function errorLogin(string $string)
+    private function errorLogin(string $string)
     {
-        $this->error = $string;
+        self::$error = $string;
     }
 
+    public static function getError()
+    {
+        return errorAlert(self::$error);
+    }
     private function ejecutarAccion()
     {
         switch ($this->accion) {
@@ -78,10 +79,6 @@ class LoginController
         }
     }
 }
-if (Text::post('accion')) {
-    $login = new LoginController;
-}
-if (!empty($login->error)) {
-    var_dump($login->error);
-    die();
+if (post('accion')) {
+    $login = new LoginController(postAsignar('accion'), postAsignar('username'), postAsignar('password'));
 }

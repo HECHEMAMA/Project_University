@@ -1,7 +1,8 @@
 <?php
-require "/opt/lampp/htdocs/tienda_botimendo/Controllers/utils.php";
-include_once "/opt/lampp/htdocs/tienda_botimendo/Models/Producto.php";
-include_once "/opt/lampp/htdocs/tienda_botimendo/Models/Imagen.php";
+require "render.php";
+render('utils',['Controllers']);
+render('Producto', ['Models']);
+render('Imagen', ['Models']);
 
 
 /**
@@ -33,7 +34,6 @@ class ProductoController
      * - mostrar-producto
      * ============================================================================================
      */
-    private string $accion;
 
     // Metodos de la clase
 
@@ -45,9 +45,8 @@ class ProductoController
      * ==========================
      */
 
-    public function __construct($accion)
+    public function __construct(private string $accion)
     {
-        $this->accion = $accion;
         $this->ejecutarAccion();
     }
     /**
@@ -58,33 +57,33 @@ class ProductoController
      */
     private function setCodigo($string)
     {
-        $string = Text::upper($string);
+        $string = upper($string);
         $this->codigo = $string;
     }
     private function setNombre($string)
     {
-        $string = Text::firstWord(Text::lower($string));
+        $string = firstWord(lower($string));
         $this->nombre = $string;
     }
     private function setDescripcion($string)
     {
-        $string = Text::firstWord(Text::lower($string));
+        $string = firstWord(lower($string));
         $this->descripcion = $string;
     }
 
     private function setPrecio($float)
     {
-        $float = Text::eliminarLetras($float);
+        $float = eliminarLetras($float);
         $this->precio = (floatval($float));
     }
     private function setCantidad($string)
     {
-        $string = Text::eliminarLetras($string);
+        $string = eliminarLetras($string);
         $this->cantidad = $string;
     }
     private function setCategoria(int $int)
     {
-        $int = Text::eliminarLetras($int);
+        $int = eliminarLetras($int);
         $this->categoria = $int;
     }
     private function setImagen()
@@ -175,7 +174,7 @@ class ProductoController
     }
     public static function mostrarProducto()
     {
-        return Generador::generateCards(Producto::mostrarProductosDiv());
+        return generateCards(Producto::mostrarProductosDiv());
     }
 
     private function ejecutarAccion()
@@ -195,6 +194,6 @@ class ProductoController
     }
 }
 
-if (Text::post('accion')) {
-    $producto = new ProductoController($_POST['accion']);
+if (post('accion')) {
+    $producto = new ProductoController(postAsignar('accion'));
 }
