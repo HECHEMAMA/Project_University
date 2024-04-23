@@ -1,7 +1,7 @@
 <?php
-include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
-include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
-include_once "/opt/lampp/htdocs/project-php/Controllers/UsuarioController.php";
+require '/opt/lampp/htdocs/project-php/Controllers/render.php';
+render('header',['view','html']);
+render('nav',['view','html']);
 ?>
 <div class="container m-5 w-75 row">
     <div class="">

@@ -1,7 +1,7 @@
 <?php
-include "/opt/lampp/htdocs/tienda_botimendo/view/html/header.php";
-include "/opt/lampp/htdocs/tienda_botimendo/view/html/nav.php";
-require "/opt/lampp/htdocs/tienda_botimendo/Controllers/ProductoController.php";
+require "../../Controllers/ProductoController.php";
+render('header',['view','html']);
+render('nav',['view','html']);
 ?>
 <div class="container m-5 w-75 row">
     <form action="../../Controllers/ProductoController.php" method="POST" enctype="multipart/form-data" id="formulario" class="row d-flex justify-content-center align-items-start gap-3 needs-validation">

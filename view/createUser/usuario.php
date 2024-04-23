@@ -1,7 +1,7 @@
 <?php
-include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
-include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
-include_once "/opt/lampp/htdocs/project-php/Controllers/UsuarioController.php";
+require '../../Controllers/UsuarioController.php';
+render('header', ['view', 'html']);
+render('nav', ['view', 'html']);
 ?>
 <div class="container p-5 d-flex flex-column">
     <h2 class="h2">Empleados Registrados</h2>
@@ -10,5 +10,5 @@ include_once "/opt/lampp/htdocs/project-php/Controllers/UsuarioController.php";
 </div>
 
 <?php
-include "/opt/lampp/htdocs/project-php/view/html/footer.php";
+render('footer', ['view', 'html']);
 ?>
