@@ -1,6 +1,7 @@
 <?php
-include "/opt/lampp/htdocs/project-php/view/html/header.php";
-include "/opt/lampp/htdocs/project-php/view/html/nav.php";
+require "/opt/lampp/htdocs/project-php/Controllers/render.php";
+render('header', ['view', 'html']);
+render('nav', ['view', 'html']);
 ?>
 
 <body id="page-top">
@@ -176,4 +177,4 @@ include "/opt/lampp/htdocs/project-php/view/html/nav.php";
         <i class="fas fa-angle-up"></i>
     </a>
 </body>
-<?php include "../html/footer.php" ?>
+<?php render('footer',['view','html']) ?>

@@ -1,4 +1,5 @@
-<?php include "/opt/lampp/htdocs/project-php/view/html/header.php"; ?>
+<?php require '/opt/lampp/htdocs/project-php/Controllers/LoginController.php' ?>
+<?php render('header', ['view', 'html']) ?>
 
 <body class="bg-gradient-light">
     <div class="container">
@@ -35,12 +36,14 @@
                                                 </div>
                                         </div> -->
                                         <!-- BOTON DE LOGIN  -->
+                                        <?php if (!empty(LoginController::$error) || !isset(LoginController::$error)) : ?>
+                                            <?= LoginController::getError() ?>
+                                        <?php endif; ?>
                                         <input type="hidden" name="accion" value="iniciar-sesion">
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             iniciar Sesión
                                         </button>
                                         <hr>
-                                        <div class="" id="login__error"></div>
                                         <!-- PARA ACTUALIZACIÓN INICIAR CON GOOGLE O FACEBOOK -->
                                         <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
                                             <i class="fab fa-google fa-fw"></i> Login with Google
@@ -67,4 +70,4 @@
         </div>
     </div>
     <!-- <script src="../estilos/js/login.js"></script> -->
-    <?php include "../html/footer.php"; ?>
+    <?php render('footer', ['view', 'html']) ?>

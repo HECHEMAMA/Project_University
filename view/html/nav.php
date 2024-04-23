@@ -55,7 +55,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="../proveedores/index.php"><i class="bi bi-person-rolodex"></i><span>Proveedores</span></a>
             </li>
-
+            <!-- Clientes -->
+            <li class="nav-item">
+                <a href="../Client/index.php" class="nav-link"><i class="bi bi-person"></i><span>Clientes</span></a>
+            </li>
             <!-- Heading -->
             <div class="sidebar-heading mt-3">Administración</div>
 

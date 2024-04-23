@@ -1,8 +1,11 @@
 <?php
-include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
-include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
-include_once "/opt/lampp/htdocs/project-php/Controllers/VentaController.php";
-include_once "/opt/lampp/htdocs/project-php/Controllers/utils.php";
+require '/opt/lampp/htdocs/project-php/Controllers/VentaController.php';
+render('header',['view','html']);
+render('nav',['view','html']);
+// include_once "/opt/lampp/htdocs/project-php/view/html/header.php";
+// include_once "/opt/lampp/htdocs/project-php/view/html/nav.php";
+// include_once "/opt/lampp/htdocs/project-php/Controllers/VentaController.php";
+// include_once "/opt/lampp/htdocs/project-php/Controllers/utils.php";
 $header = [
     "",
     "Nombre del Producto",
@@ -78,7 +81,7 @@ $total = [
                     </div>
                 </div>
                 <div class="row d-flex justify-content-center">
-                    <?= Generador::tablas($factura, $total, false, false, "producto") ?>
+                    <?= tablas($factura, $total, false, false, "producto") ?>
                 </div>
                 <div class="row my-5 d-flex flex-row flex-nowrap justify-content-center">
                     <button type="submit" class="btn btn-primary w-25 m-2"><i class="bi-currency-dollar"></i> Vender</button>
@@ -98,9 +101,9 @@ $total = [
             </div>
             <div class="col mt-2">
                 <h3 class="h3">Productos a Comprar</h3>
-                <?= Generador::tablas($header, $productos, false, true, "producto") ?>
+                <?= tablas($header, $productos, false, true, "producto") ?>
             </div>
         </div>
     </div>
 </form>
-<?php include_once "/opt/lampp/htdocs/project-php/view/html/footer.php"; ?>
+<?php render('footer',['view','html']) ?>
