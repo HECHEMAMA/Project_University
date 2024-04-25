@@ -1,5 +1,5 @@
 <?php
-# include_once "/opt/lampp/htdocs/tienda_botimendo/Models/conexion.php";
+require_once "/opt/lampp/htdocs/tienda_botimendo/Models/Conexion.php";
 /**
  * ["name"]     => string(12) "Pegaucho.jpg" 
  * ["full_path"]=> string(12) "Pegaucho.jpg" 
@@ -50,7 +50,6 @@ class Imagen
             $this->imagen_blob = convertirBinario($this->imagen_blob);
         } else {
             throw new Exception("Variable \$_FILE esta vacia", 1);
-            
         }
     }
     private function setNombreImagen($string)

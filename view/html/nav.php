@@ -72,7 +72,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Datos</h6>
                         <!-- <a class="collapse-item" href="../createUser/index.php">Crear Nuevo Usuario</a> -->
-                        <a class="collapse-item" href="../createUser/usuario.php">Empleados</a>
+                        <a class="collapse-item" href="../createUser/index.php">Empleados</a>
                         <!-- <a class="collapse-item" href="../createUser/roles.php">Roles</a> -->
                     </div>
                 </div>
@@ -99,7 +99,7 @@
             <hr class="sidebar-divider" />
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="../login/index.php">
+                <a class="nav-link" href="/project-php/view/login/index.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Cerrar Sesion</span></a>
             </li>

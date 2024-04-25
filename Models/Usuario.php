@@ -1,49 +1,9 @@
 <?php
+require_once "/opt/lampp/htdocs/tienda_botimendo/Models/Conexion.php";
 
-/**
- * Hacemos uso de la clase Conexion con sus metodos estaticos
- */
-// require "/opt/lampp/htdocs/tienda_botimendo/Models/Conexion.php";
-render('Conexion', ['Models']);
+// render('Conexion', ['Models']);
 class Usuario
 {
-    /**
-     * Variables a usar
-     */
-    /**
-     * ARRAYS CONSULTAS SQL DATABASE
-     */
-    /* private static array $persona = [
-        'select' => 'SELECT nombre, apellido, cedula, telefono, direccion, Rol.tipo_rol FROM Usuario INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol WHERE Rol.tipo_rol = "administrador" OR Rol.tipo_rol = "empleado";',
-        'buscar' => 'SELECT nombre, apellido, cedula, telefono, direccion, Rol.tipo_rol FROM Usuario INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol WHERE Usuario.cedula LIKE ?;',
-        'update' => 'UPDATE Usuario SET nombre=?,apellido=?,cedula=?,telefono=?,direccion=?,fk_rol=? WHERE cedula = ?',
-        'insert' => 'INSERT INTO Usuario (nombre, apellido, cedula, telefono, direccion, fk_rol) VALUES (?,?,?,?,?,?)',
-    ];
-
-    private static array $usuario = [
-        'select' => 'SELECT `nombre`, `apellido`,`usuario` FROM Empleado INNER JOIN Usuario ON Empleado.fk_usuario = Usuario.cedula;',
-        'buscar' => 'SELECT `usuario`, `contrasena` FROM Empleado WHERE `usuario` = ?;',
-        'update' => 'UPDATE Empleado SET `usuario`, `contrasena` WHERE `usuario` = ?;',
-        'insert' => 'INSERT INTO Empleado (`usuario`,`contrasena`, `fk_usuario`) VALUES (?,?,?)',
-    ]; */
-
-    /**
-     * =======================================================================================
-     * Para Buscar la Persona por la @param cedula el array datos debe tener el valor a buscar 
-     * si te acuerdas lo escribes completo
-     * SI NO TE ACUERDAS le agregas al final del string%
-     * =======================================================================================
-     */
-    public static function mostrarUsuariosCreateUser()
-    {
-        try {
-            $sql = 'SELECT cedula AS id, nombre, apellido, Empleado.usuario, Rol.tipo_rol FROM Usuario INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol INNER JOIN Empleado ON Usuario.cedula = Empleado.fk_usuario WHERE Rol.tipo_rol = "administrador" OR Rol.tipo_rol = "empleado" ORDER BY Rol.tipo_rol ASC';
-            $respuesta = Conexion::query($sql, []);
-            return $respuesta;
-        } catch (PDOException $e) {
-            throw new Exception("ERROR no se pudo realizar la consulta de mostrar los usuarios " . $e->getMessage(), 1);
-        }
-    }
     public static function mostrarEmpleados(): array
     {
         try {
@@ -54,38 +14,31 @@ class Usuario
             throw new Exception("Error al mostrar los usuario", 1);
         }
     }
-    public static function obtenerClientes(): array
-    {
-        $sql = 'SELECT cedula AS id,nombre, apellido, telefono, direccion FROM Usuario INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol WHERE Rol.tipo_rol = "cliente"';
-        try {
-            $respuesta = Conexion::query($sql, []);
-            return $respuesta;
-        } catch (PDOException $e) {
-            throw new Exception("Error al mostrar los Clientes", 1);
-        }
-    }
-    public static function buscarUsuario($valor): array
-    {
-        try {
-            $sql = "SELECT * FROM Empleado WHERE usuario = ?;";
-            $respuesta = Conexion::query($sql, $valor);
-            return $respuesta;
-        } catch (PDOException $e) {
-            throw new Exception("Error al buscar el usuario", 1);
-        }
-    }
 
-    public static function buscarCedula(array $cedula): array
+    public static function buscarCedula($cedula): array
     {
         try {
             $sql = "SELECT * FROM Usuario WHERE cedula = ?";
-            $respuesta = Conexion::query($sql, $cedula);
+            $respuesta = Conexion::query($sql, [$cedula]);
             return $respuesta;
         } catch (PDOException $e) {
             throw new Exception("Error al buscar por la cedula", 1);
         }
     }
-
+    public static function obtenerEmpleado(array $id_empleado, bool $where = false)
+    {
+        if ($where) {
+            $sql = 'SELECT Usuario.cedula AS id, Empleado.usuario,Usuario.nombre, Usuario.apellido, Usuario.telefono, Usuario.direccion, Rol.tipo_rol FROM Empleado INNER JOIN Usuario ON Empleado.fk_usuario = Usuario.cedula INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol WHERE Usuario.cedula = ?';
+        } else {
+            $sql = 'SELECT cedula AS id,nombre, apellido, telefono, direccion FROM Usuario INNER JOIN Rol ON Usuario.fk_rol = Rol.id_rol WHERE Rol.tipo_rol = "administrador" OR Rol.tipo_rol = "empleado" ORDER BY cedula ASC';
+        }
+        try {
+            $respuesta = Conexion::query($sql, $id_empleado);
+            return $respuesta;
+        } catch (PDOException $e) {
+            throw new Exception("Error al mostrar los Clientes<br> " . $e, 1);
+        }
+    }
     /**
      * ==============================================================
      * @method AgregarPersona 
@@ -93,33 +46,96 @@ class Usuario
      * Retorna un @param FALSE si la persona no se registro. 
      * ==============================================================
      */
-    public static function agregarUsuario(array $datos)
+    public static function agregarUsuario($cedula)
     {
+        $sql = "INSERT INTO Empleado (usuario, contrasena, fk_usuario) VALUES (?,?,?)";
+        $usuario = [
+            lower(postAsignar('username')),
+            hashPassword(postAsignar('password')),
+            eliminarLetras($cedula),
+        ];
         try {
-            $sql = "INSERT INTO Usuario (nombre, apellido, cedula, telefono, direccion, fk_rol) VALUES (?,?,?,?,?,?)";
-            $respuesta = Conexion::execute($sql, $datos);
+            $respuesta = Conexion::execute($sql, $usuario);
             return $respuesta;
         } catch (PDOException $e) {
             throw new Exception("Error no se pudo registrar la persona: " . $e->getMessage(), 1);
         }
     }
-    public static function agregarEmpleado(array $datos)
+    public static function agregarEmpleado()
     {
+        $sql = "INSERT INTO Usuario (cedula, nombre, apellido, telefono, direccion, fk_rol) VALUE (?,?,?,?,?,?);";
+        $empleado = [
+            eliminarLetras(postAsignar('cedula')),
+            firstWord(postAsignar('nombre')),
+            firstWord(postAsignar('apellido')),
+            eliminarLetras(postAsignar('telefono')),
+            inicialesMayusculas(postAsignar('direccion')),
+            postAsignar('rol'),
+        ];
         try {
-            $sql = "INSERT INTO Empleado (`usuario`,`contrasena`,`fk_usuario`) VALUES (?,?,?);";
-            $respuesta = Conexion::execute($sql, $datos);
+            $respuesta = Conexion::execute($sql, $empleado);
             return $respuesta;
         } catch (PDOException $e) {
-            throw new Exception("Error al registrar al empleado", 1);;
+            throw new Exception("Error al registrar al empleado <br>" . $e, 1);;
         }
     }
 
-    public static function editarUsuario(array $datos)
+    public static function editarEmpleado($cedula)
     {
+        $sql = "UPDATE Usuario SET cedula = ?, nombre = ?, apellido = ?, telefono = ?, direccion=?, fk_rol= ?  WHERE cedula = ?;";
+        $empleado = [
+            $cedula,
+            firstWord(postAsignar('nombre')),
+            firstWord(postAsignar('apellido')),
+            eliminarLetras(postAsignar('telefono')),
+            inicialesMayusculas(postAsignar('direccion')),
+            // postAsignar('rol'),
+            3,
+            $cedula,
+        ];
+        try {
+            $respuesta = Conexion::execute($sql, $empleado);
+            return $respuesta;
+        } catch (PDOException $e) {
+            throw new Exception("Error al registrar al empleado <br>" . $e, 1);;
+        }
     }
 
-    public static function editarPersona(array $datos)
+    public static function editarUsuario($cedula)
     {
+        $sql = "UPDATE Empleado SET usuario = ?, contrasena = ?, fk_usuario = ? WHERE fk_usuario = ?;";
+        $usuario = [
+            lower(postAsignar('username')),
+            hashPassword(postAsignar('password')),
+            eliminarLetras($cedula),
+            eliminarLetras($cedula),
+        ];
+        try {
+            $respuesta = Conexion::execute($sql, $usuario);
+            return $respuesta;
+        } catch (PDOException $e) {
+            throw new Exception("Error no se pudo registrar la persona: " . $e->getMessage(), 1);
+        }
+    }
+    public static function borrarEmpleado($cedula)
+    {
+        $sql = 'DELETE FROM Usuario WHERE Usuario.cedula = ?';
+        try {
+            $respuesta = Conexion::execute($sql, [$cedula]);
+            return $respuesta;
+        } catch (PDOException $e) {
+            throw new Exception("Error no se puedo eliminar el empleado" . $e, 1);
+        }
+    }
+    public static function borrarUsuario($cedula)
+    {
+        $sql = 'DELETE FROM Empleado WHERE fk_usuario = ?';
+        try {
+            $respuesta = Conexion::execute($sql, [$cedula]);
+            return $respuesta;
+        } catch (PDOException $e) {
+            throw new Exception("Error no se puedo eliminar el usuario" . $e, 1);
+        }
     }
 }
 /* $user = UsuarioModel::mostrar("SELECT * FROM Empleado WHERE usuario = ?", ['jeremmygonzalez']);

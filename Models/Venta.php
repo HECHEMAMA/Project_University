@@ -1,5 +1,5 @@
 <?php
-render('Conexion', ['Models']);
+require_once 'Conexion.php';
 /*----- Tabla Venta -----*/
 // id_venta INT PRIMARY KEY
 // fk_producto VARCHAR(7) Este seria el codigo del producto

@@ -23,12 +23,10 @@ require_once "/opt/lampp/htdocs/project-php/Controllers/ProveedorController.php"
                 <div class="invalid-feedback" id="telefonoError"></div>
             </div>
             <input type="text" name="accion" value="registrar-proveedor" hidden>
-            <div class="row d-flex justify-content-center align-items-center">
-                <button type="submit" class="btn btn-primary" style="width: 150px;">Registrar</button>
+            <div class="d-flex flex-row gap-3 justify-content-start ">
+                <button type="submit" class="btn btn-primary">Registrar</button>
+                <a href="index.php" class="btn btn-dark">Cancelar</a>
             </div>
     </form>
-    <!-- <div>
-        <?= ProveedorController::mostrarProveedorSection() ?>
-    </div> -->
 </div>
 <?php require "/opt/lampp/htdocs/project-php/view/html/footer.php"; ?>

@@ -1,5 +1,5 @@
 <?php
-render('Conexion', ['Models']);
+require_once 'Conexion.php';
 
 class Login
 {

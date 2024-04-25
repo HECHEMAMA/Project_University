@@ -1,3 +1,6 @@
+    
+    <!-- funcion onclick eliminar() -->
+    <script src="../estilos/js/alert.js"></script>
     <!-- Bootstrap 5 -->
     <script src="../estilos/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap core JavaScript-->

@@ -33,7 +33,21 @@ class Conexion
             return false;
         }
     }
-
+    public static function queryObject($query, $params = [])
+    {
+        $conn = self::connect();
+        if ($conn === null) {
+            return false;
+        }
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            echo "Query failed: " . $e->getMessage();
+            return false;
+        }
+    }
     //  Ejecuta una consulta INSERT, UPDATE o DELETE y devuelve true si se ejecuta con éxito o false en caso de error.
     public static function execute($query, $params = [])
     {
