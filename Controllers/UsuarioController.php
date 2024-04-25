@@ -1,7 +1,10 @@
 <?php
-require "render.php";
-render('utils',['Controllers']);
-render('Usuario', ['Models']);
+// require "render.php";
+require_once 'utils.php';
+require_once '/opt/lampp/htdocs/project-php/Models/Usuario.php';
+
+// render('utils',['Controllers']);
+// render('Usuario', ['Models']);
 /**
  * @param REFACTORIZAR_CLASE
  * @param DIVIDIR_CLASE
@@ -26,24 +29,6 @@ render('Usuario', ['Models']);
 class UsuarioController
 {
     /**
-     * ======================================================================
-     * Variables de todas las Personas al llenar un formulario
-     * @param string $cedula => Identificacion de la persona 
-     * @param string $nombre; => Nombre de la Persona Solo uno
-     * @param string $apellido; => Apellido de la Persona
-     * @param string $telefono; => Telefono
-     * @param string $direccion; => Direccion Corta de la Persona
-     * @param int $rol => Rol de la Persona: 1=>Cliente, 2=>Administrador, 3=>Empleado
-     * ======================================================================
-     */
-    private string $cedula;
-    private string $nombre;
-    private string $apellido;
-    private string $telefono;
-    private string $direccion;
-    private $rol;
-
-    /**
      * ===============================================================================
      * Campos de los Empleados para Logear
      * @param int $id_usuario
@@ -51,7 +36,8 @@ class UsuarioController
      * @param string $password => Contraseña del Usuario
      * ===============================================================================
      */
-    private $id_usuario;
+    private static string $error = '';
+    private string $cedula;
     private string $username;
     private string $password;
 
@@ -76,84 +62,9 @@ class UsuarioController
     {
         $this->ejecutarAccion();
     }
-
-    /**
-     * @method Metodo_Set
-     * @param setX => agrega valores a los atributos
-     */
-    private function setCedula($string)
-    {
-        $string = eliminarLetras($string);
-        $this->cedula = $string;
-    }
-    // Asignando Valor a Nombre
-    private function setNombre($string)
-    {
-        $string = firstWord(eliminarNumeros($string));
-        $this->nombre = $string;
-    }
-    // Asignando Valor a Apellido
-    private function setApellido($string)
-    {
-        $string = firstWord(eliminarNumeros($string));
-        $this->apellido = $string;
-    }
-    // Asignando Valor a Telefono
-    private function setTelefono($string)
-    {
-        $string = eliminarLetras($string);
-        $this->telefono = $string;
-    }
-    // Asignando Valor a Direccion
-    private function setDireccion($string)
-    {
-        $string = inicialesMayusculas(eliminarNumeros($string));
-        $this->direccion = $string;
-    }
-    // Asignando Valor a Tipo
-    private function setRol($string)
-    {
-        $this->rol = $string;
-    }
-    private function setUsername($string)
-    {
-        $string = lower($string);
-        $this->username = $string;
-    }
-    private function setPassword($string)
-    {
-        $this->password = $string;
-    }
-
-    /**
-     * ================================================
-     * @method Metodos_GET
-     * @return getX => Devolvera el valor las variables
-     * ================================================
-     */
-    private function getNombre()
-    {
-        return $this->nombre;
-    }
-    private function getApellido()
-    {
-        return $this->apellido;
-    }
     private function getCedula()
     {
-        return $this->cedula;
-    }
-    private function getTelefono()
-    {
-        return $this->telefono;
-    }
-    private function getDireccion()
-    {
-        return $this->direccion;
-    }
-    private function getRol()
-    {
-        return $this->rol;
+        return eliminarLetras($this->cedula);
     }
     private function getUsername()
     {
@@ -171,32 +82,15 @@ class UsuarioController
      * ========================================================
      */
 
-
     /**
-     * @method Crear_Persona
-     * Este metodo tambien sirve para crear cliente y empleados
+     * @method Mostrar_Persona
+     * Devuelve un array de la consulta
      */
-    private function crearPersona()
+    public static function datosEmpleado($id_empleado)
     {
-        $this->setNombre($_POST['nombre']);
-        $this->setApellido($_POST['apellido']);
-        $this->setCedula($_POST['cedula']);
-        $this->setTelefono($_POST['telefono']);
-        $this->setDireccion($_POST['direccion']);
-        $this->setRol($_POST['rol']);
-        try {
-            $usuario = Usuario::buscarCedula([$this->getCedula()]); // Buscara en la base de datos una persona que este registrada con esta cedula
-            if (count($usuario) === 0) {
-                $sql = Usuario::agregarUsuario([$this->getNombre(), $this->getApellido(), $this->getCedula(), $this->getTelefono(), $this->getDireccion(), $this->getRol()]);
-            }
-            /* if ($sql) {
-            } else {
-                die("Error al registrar el usuario");
-            } */
-        } catch (PDOException $e) {
-            throw new Exception("Error al Registrar a la Persona" . $e->getMessage(), 1);
-        }
+        return Usuario::obtenerEmpleado([$id_empleado], true);
     }
+
 
     /**
      * @method Crear_Usuario
@@ -204,59 +98,113 @@ class UsuarioController
      */
     private function crearUsuario()
     {
-        $this->setUsername($_POST['username']);
-        $this->setPassword(hashPassword($_POST['password']));
-        try {
-            $this->crearPersona();
-            $sql = Usuario::agregarEmpleado([$this->getUsername(), $this->getPassword(), $this->getCedula()]);
-            if ($sql) {
-                header("location: ../view/createUser/index.php");
-            } else {
-                die("Error al registrar el empleado");
+        if (post('password') && post('password2') && post('username')) { // Primero se verifica que exitan los valores ✅
+
+            if (postAsignar('password') === postAsignar('password2')) { // Si todo concuerda prosigue con la operación
+                try {
+                    if ($this->crearPersona()) { // Si el metodo devuelve TRUE entonces se crea el usuario
+                        if (Usuario::agregarUsuario($this->getCedula())) { // Usuario creado exitosamente 🤩
+                            header('location: ../view/createUser/index.php');
+                        } else {
+                            echo "No registro el usuario";
+                        }
+                        die();
+                    }
+                    echo "No se guardo los datos del empleado";
+                } catch (PDOException $e) {
+                    throw new Exception("Error al crear un Usuario a: " . $e->getMessage(), 1);
+                }
+            } else { // Si la contraseña no es igual.
+                echo "La contreseña no es igual.";
             }
-        } catch (PDOException $e) {
-            throw new Exception("Error al crear un Usuario a: " . $e->getMessage(), 1);
+        } else { // Si los campos estan vacios entonces muestra el siguiente mensaje en pantalla ❌
+            echo "Llene todos los campos.";
         }
     }
+    /**
+     * @method Crear_Persona
+     * Este metodo tambien sirve para crear cliente y empleados
+     */
+    private function crearPersona()
+    {
+        if (post('cedula') && post('nombre') && post('apellido') && post('telefono') && post('direccion')) {
+            $this->cedula = $_POST['cedula'];
+            try {
+                if (!Usuario::buscarCedula($this->getCedula())) {
+                    $verificado = (Usuario::agregarEmpleado());
+                    ($verificado)
+                        ? true
+                        : die('No se almacenaron los datos del empleado.');
+                    return $verificado;
+                } else { // -> la Persona ya se encuentra registrada
+                    die('Esta persona ya esta registrada');
+                }
+            } catch (PDOException $e) {
+                throw new Exception("Error al Registrar a la empleado" . $e->getMessage(), 1);
+            }
+        } else {
+            echo "Llene los campos";
+        }
+    }
+    /**
+     * @method Editar_Empleado
+     */
+    public function editarEmpleado()
+    {
+        if (post('cedula') && post('nombre') && post('apellido') && post('telefono') && post('direccion')) {
+            $this->cedula = $_POST['cedula'];
+            try {
+                $verificado = (Usuario::editarEmpleado($this->getCedula())); // ⚠️ Escudriñar ¿Por qué no guarda el cambio de la cédula?
+                return $verificado;
+            } catch (PDOException $e) {
+                throw new Exception("Error al actualizar los datos del Empleado" . $e->getMessage(), 1);
+            }
+        } else {
+            echo "Llene los campos";
+        }
+    }
+    private function editarUsuario()
+    {
+        if (post('password') && post('password2') && post('username')) { // Primero se verifica que exitan los valores ✅
 
-    /**
-     * @method Editar_Persona
-     * Metodo para editar los datos de la persona
-     */
-    /**
-     * @method Editar_Usuario
-     */
-    public static function editarEmpleado($id_usuario)
-    {
-        var_dump($id_usuario);
+            if (postAsignar('password') === postAsignar('password2')) { // Si todo concuerda prosigue con la operación
+                try {
+                    if ($this->editarEmpleado()) { // Si el metodo devuelve TRUE entonces se actualizo el usuario exitosamente
+                        if (Usuario::editarUsuario($this->getCedula())) { // Usuario actualizado exitosamente 🤩
+                            header('location: ../view/createUser/index.php');
+                        } else {
+                            echo "No registro el usuario";
+                        }
+                        die();
+                    }
+                    echo "No se guardo los datos del empleado";
+                } catch (PDOException $e) {
+                    throw new Exception("Error al crear un Usuario a: " . $e->getMessage(), 1);
+                }
+            } else { // Si la contraseña no es igual.
+                echo "La contreseña no es igual.";
+            }
+        } else { // Si los campos estan vacios entonces muestra el siguiente mensaje en pantalla ❌
+            echo "Llene todos los campos.";
+        }
     }
-    public static function borrarEmpleado($id_usuario)
-    {
-        var_dump($id_usuario);
-    }
+    // public static function mostrarUsuariosCreateUser()
+    // {
+    //     $header = [
+    //         "Nombre",
+    //         "Apellido",
+    //         "Usuario",
+    //         "Rol",
+    //         "",
+    //     ];
+    //     $titulo = "Empleado";
+    //     return tablas($header, Usuario::mostrarUsuariosCreateUser(), true, true, $titulo);
+    // }
     /**
-     * @method Mostrar_Persona
-     * Devuelve un array de la consulta
+     * ===========================================
+     * @method extraer la informacion del ususario
+     * ===========================================
      */
-    public function mostrarPersonas()
-    {
-    }
-    /**
-     * @method Mostrar_Usuario
-     * Devuelve un array de la consulta
-     */
-    public static function mostrarUsuariosCreateUser()
-    {
-        $header = [
-            "Nombre",
-            "Apellido",
-            "Usuario",
-            "Rol",
-            "",
-        ];
-        $titulo = "Empleado";
-        return tablas($header, Usuario::mostrarUsuariosCreateUser(), true, true, $titulo);
-    }
     public static function mostrarUsuarios()
     {
         $header = [
@@ -268,41 +216,37 @@ class UsuarioController
             "Rol",
             "",
         ];
-        $titulo = "empleado";
-        return tablas($header, Usuario::mostrarEmpleados(), true, true, $titulo);
+        return tablas($header, Usuario::mostrarEmpleados(), true, true, ['UsuarioController', 'usuario'], 'edit.php');
     }
-    /**
-     * @method Login
-     * verificar el usuario y la constraseña
-     */
-    private function login()
+    private function borrarEmpleado()
     {
-        $this->setUsername($_POST['username']);
-        $this->setPassword($_POST['password']);
-        try {
-            $respuesta = Usuario::buscarUsuario([$this->getUsername()]);
-            if (count($respuesta) > 0) {
-                foreach ($respuesta as $row) {
-                    $contrasenaHash = $row['contrasena'];
-                }
-            }
-            (verify($this->getPassword(), $contrasenaHash))
-                ? header("location: ../view/home/index.php")
-                : header("location: ../view/login/index.php");
-        } catch (PDOException $e) {
-            throw new Exception("Error al Iniciar Sesion " . $e->getMessage(), 1);
-        }
-    }
-    /**
-     * =======================================================================================
-     * @method Metodo_Error
-     * Se encarga de devolver al usuario a la ventana de origen si se produce un inconveniente
-     * =======================================================================================
-     */
-    private function Error($valor)
-    {
+        return (Usuario::borrarEmpleado($this->cedula));
     }
 
+    private function borrarUsuario()
+    {
+        if (post('id')) {
+            $this->cedula = postAsignar('id');
+            if (Usuario::borrarUsuario($this->cedula)) {
+                if ($this->borrarEmpleado()) {
+                    header('location: ../view/createUser/index.php');
+                } else {
+                    die('Se borro el Usuario pero siguen los datos del empleado');
+                }
+            } else {
+                die('Nose pudo borrar el Usuario');
+            }
+        } else {
+            die('falta el id');
+        }
+    }
+    public static function error()
+    {
+        if (self::$error === '') {
+            return '';
+        }
+        return alert(self::$error, false);
+    }
     /**
      * @method Ejecuta_Accion 
      * ~~> Este metodo es el que esta en el @param __contructor 
@@ -310,27 +254,27 @@ class UsuarioController
      */
     private function ejecutarAccion()
     {
-        switch ($this->accion) {
-            case 'crear-usuario':
-                $this->crearUsuario();
-                break;
-            case 'registrar-cliente':
-                # code...
-                break;
-            case 'iniciar-sesion':
-                $this->login();
-                break;
-            default:
-                # no se que colocar
-                break;
-        }
+        match ($this->accion) {
+            'crear-usuario'  => $this->crearUsuario(),
+            'modificar-usuario' => $this->editarUsuario(),
+            'borrar-usuario' => $this->borrarUsuario(),
+        };
     }
 }
-if (post('accion') === true) {
+
+if (post('accion')) {
     $usuario = new UsuarioController($_POST['accion']);
 }
 
+if (!empty($_GET['id'])) {
+    UsuarioController::error();
+}
 /**
  * @author jeremmygonzalez
  * @param 205080
+ */
+
+/**
+ * martinlopez 
+ * martin1234  
  */

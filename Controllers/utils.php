@@ -55,7 +55,7 @@ function inicialesMayusculas(string $texto): string // Este metodo recibe un str
     foreach ($palabras as &$palabra) {
         // Si la palabra tiene más de dos letras, capitaliza la primera letra
         if (strlen($palabra) > 2) {
-            $palabra = ucfirst($palabra);
+            $palabra = ucfirst(lower($palabra));
         }
     }
 
@@ -215,7 +215,7 @@ function generateCards($products)
  * @param bool $eliminar Indica si se deben mostrar botones de eliminación
  * @return string Devuelve el HTML de la tabla
  */
-function tablas(array $headers, array $datos, bool $editar, bool $eliminar, $titulo): string
+function tablas(array $headers, array $datos, bool $editar, bool $eliminar, array $titulo = [], $action = 'edit.php'): string
 {
     $idField = 'id';
     // Inicia el HTML de la tabla
@@ -246,19 +246,21 @@ function tablas(array $headers, array $datos, bool $editar, bool $eliminar, $tit
 
             // Formulario para editar
             if ($editar) {
-                $html .= '<form action="../../Controllers/modificaciones.php" method="post">';
-                $html .= '<input type="hidden" name="id" value="' . $fila[$idField] . '">';
-                $html .= '<input type="hidden" name="accion" value="editar-' . $titulo . '">';
-                $html .= '<button type="submit" class="btn btn-primary"><i class="bi-pencil-square"></i></button>';
-                $html .= '</form>';
+                // $html .= '<form action="/project-php/Controllers/modificaciones.php" method="post">';
+                // $html .= '<input type="hidden" name="id" value="' . $fila[$idField] . '">';
+                // $html .= '<input type="hidden" name="accion" value="editar-' . $titulo . '">';
+                $html .= '<a href="' . $action . '?id=' . $fila[$idField] . '" class="btn btn-primary"><i class="bi-pencil-square"></i></a>';
+                // $html .= '</form>';
             }
 
             // Formulario para eliminar
             if ($eliminar) {
-                $html .= '<form action="../../Controllers/modificaciones.php" method="post">';
+                $html .= '<form action="/project-php/Controllers/' . $titulo[0] . '.php" method="post">';
                 $html .= '<input type="hidden" name="id" value="' . $fila[$idField] . '">';
-                $html .= '<input type="hidden" name="accion" value="borrar-' . $titulo . '">';
-                $html .= '<button type="submit" class="btn btn-danger"><i class="bi-trash3"></i></button>';
+                // $html .= '<input type="hidden" name="accion" value="borrar-' . $titulo . '">';
+                // onclick="return eliminar()
+                $html .= '<button type="submit" name="accion" value="borrar-' . $titulo[1] . '" class="btn btn-danger"><i class="bi-trash3"></i></button>';
+                // $html .= '<a href="index.php?id=' . $fila[$idField] . '" class="btn btn-danger"><i class="bi-trash3"></i></a>';
                 $html .= '</form>';
             }
 
@@ -274,11 +276,27 @@ function tablas(array $headers, array $datos, bool $editar, bool $eliminar, $tit
     return $html;
 }
 
-function errorAlert($error, array $title = [])
+function alert($mensaje, bool $bueno)
 {
-    $html = '<div class="alert alert-danger" role="alert">';
-    $html .= $error;
+    ($bueno)
+        ? $html = '<div class = "alert alert-success">'
+        : $html = '<div class= "alert alert-danger">';
+    $html .= $mensaje;
     $html .= '</div>';
+    return $html;
+}
+
+function formulario(array $label, array $valueInput, string $action)
+{
+    $html = '<form action="' . $action . '" method="POST" class="row d-flex justify-content-center">';
+    for ($i = 0; $i < count($label); $i++) {
+        $html .= '<div class="form-floating mb-3">';
+        die();
+        $html .= '<input type="text" class="form-control" name="' . $label[$i] . '" id="' . $label[$i] . '" placeholder="' . $valueInput[$i] . '" />';
+        $html .= '<label for="' . $label[$i] . '">' . $label[$i] . '</label>';
+        $html .= '</div>';
+    }
+    $html .= '</form>';
     return $html;
 }
 
@@ -298,5 +316,3 @@ function selectEtiqueta($data, $name, $id, $selected = null)
     $select .= '</select>';
     return $select;
 }
-
-

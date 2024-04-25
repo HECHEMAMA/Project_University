@@ -10,5 +10,5 @@ function render($fileName, $folder = [])
         $direction .= $folder . '/';
     }
     $direction .= $fileName . '.php';
-    require $direction;
+    require_once $direction;
 }

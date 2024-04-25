@@ -1,7 +1,7 @@
 <?php
 require "render.php";
-render('utils',['Controllers']);
-render('Login',['Models']);
+render('utils', ['Controllers']);
+render('Login', ['Models']);
 
 /**
  * @param Clase_Login 
@@ -42,7 +42,7 @@ class LoginController
     private function validarCampos()
     {
         if (post('username') && post('password')) { // Verifica si tienen un valor devuele TRUE
-            $this->username = postAsignar('username');
+            $this->username = lower(postAsignar('username'));
             $this->password = postAsignar('password');
         } else {
             $this->errorLogin('Los campos son obligatorios.');
@@ -69,16 +69,16 @@ class LoginController
     }
     private function ejecutarAccion()
     {
-        switch ($this->accion) {
-            case 'iniciar-sesion':
-                $this->logear();
-                break;
-            default:
-                # code...
-                break;
-        }
+        match ($this->accion) {
+            'iniciar-sesion' => $this->logear(),
+            default => $this->errorLogin('Accion no valida.'),
+        };
     }
 }
 if (post('accion')) {
-    $login = new LoginController(postAsignar('accion'), postAsignar('username'), postAsignar('password'));
+    if (post('username') && post('password')) {
+        $login = new LoginController(postAsignar('accion'), postAsignar('username'), postAsignar('password'));
+    } else { // Si los input estan vacios devolvemos al usuario al login
+        header('location: ../view/login/index.php');
+    }
 }
