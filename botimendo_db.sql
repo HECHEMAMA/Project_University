@@ -38,10 +38,10 @@ CREATE TABLE `Categoria` (
 --
 
 INSERT INTO `Categoria` (`id_categoria`, `nombre_categoria`) VALUES
+(1, 'Telas'),
 (2, 'Calzado'),
 (4, 'Hilos'),
-(3, 'Pegantes'),
-(1, 'Telas');
+(3, 'Pegantes');
 
 -- --------------------------------------------------------
 
