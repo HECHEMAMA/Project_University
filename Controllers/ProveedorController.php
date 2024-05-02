@@ -12,10 +12,11 @@ class ProveedorController
     public static function mostrarProveedores()
     {
         $header = [
-            "",
+            "ID",
             "Proveedor",
             "Teléfono",
             "Ubicación",
+            "",
         ];
         $proveedores = Proveedor::obtenerProveedor();
         return tablas($header, $proveedores, true, true, ['ProveedorController', 'proveedor'], 'edit.php');

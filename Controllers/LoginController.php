@@ -33,11 +33,16 @@ class LoginController
                 (verify($this->password, $contrasenaHash))
                     ? $this->sesion($this->username)
 
-                    : $this->errorLogin($error);
+                    // : $this->errorLogin($error);
+                    : '';
             }
-            $this->errorLogin($error);
+            echo $error;
+            echo '<a href="../view/login/index.php">Volver al login</a>';
+            // $this->errorLogin($error);
         } else {
-            $this->errorLogin('Los campos son obligatorios.');
+            echo 'Los campos son obligatorios.';
+            echo '<a href="../view/login/index.php">Volver al login</a>';
+            // $this->errorLogin('Los campos son obligatorios.');
         }
     }
     /**
@@ -66,13 +71,13 @@ class LoginController
                 header("location: ../view/home/index.php");
                 // $this->location = '../view/home/index.php';
             } elseif ($usuario->tipo_rol === 'empleado') {
-                header("location: ../view/home/index.php");
                 // header("location: ../view/empleado/index.php");
+                header("location: ../view/empleado/index.php");
                 // $this->location = '../view/empleado/index.php';
                 echo "Wrong";
             }
         }
-        die();
+        die('Sesion');
     }
     private function crearSesion()
     {

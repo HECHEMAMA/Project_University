@@ -1,6 +1,6 @@
 <?php
 require "/opt/lampp/htdocs/project-php/Controllers/ProductoController.php";
-render('header', ['view','html']);
+render('header', ['view', 'html']);
 include "/opt/lampp/htdocs/project-php/view/html/nav.php";
 ?>
 <div class="container py-5 d-flex flex-column">
@@ -26,5 +26,17 @@ include "/opt/lampp/htdocs/project-php/view/html/nav.php";
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-</div>
-<?php render('footer', ['view','html']) ?>
+<script>
+    var tabla = document.querySelector('#tabla');
+    console.log(tabla)
+    new DataTable(tabla, {
+        paging: true,
+        searching: true,
+        dom: 'ltipB', // Add 'B' (print button) to the DOM definition
+        buttons: [{
+            extend: 'print', // Use the print button type from Buttons extension
+            text: 'Imprimir' // Set button text in Spanish
+        }]
+    })
+</script>
+<?php render('footer', ['view', 'html']) ?>

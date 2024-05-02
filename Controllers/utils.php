@@ -198,7 +198,7 @@ function generateCards($products)
     return '
             <section class="py-3">
                 <div class="container px-4 px-lg-5 mt-5">
-                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="">
                         ' . $cards . '
                     </div>
                 </div>
@@ -274,6 +274,24 @@ function tablas(array $headers, array $datos, bool $editar, bool $eliminar, arra
     $html .= '</table>';
 
     return $html;
+}
+
+function mostrarRoles($roles)
+{
+    // Check if the roles array is not empty
+    if (!empty($roles)) {
+        // Display roles
+        echo "<div class='form-group mb-3'>";
+        echo "<label for='role' class='form-label'>Select a role:</label>";
+        echo "<select class='form-select' id='role'>";
+        foreach ($roles as $role) {
+            echo "<option value='" . $role["id"] . "'>" . $role["role_name"] . "</option>";
+        }
+        echo "</select>";
+        echo "</div>";
+    } else {
+        echo "No roles found.";
+    }
 }
 
 function alert($mensaje, bool $bueno)

@@ -8,6 +8,8 @@
 
     <!-- Estilos DataTable -->
     <link rel="stylesheet" href="../estilos/DataTables/datatables.min.css">
+    <script src="../estilos/DataTables/jquery-3.7.1.min.js"></script>
+    <script src="../estilos/DataTables/datatables.min.js"></script>
 
     <!-- Referencia para los Estilos Bootstrap 5 -->
     <link rel="stylesheet" href="../estilos/bootstrap/css/bootstrap.min.css">

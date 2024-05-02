@@ -1,8 +1,16 @@
         <!-- DATA__TABLE 
     para que funcione data__table agregar el siguiente script en el archivo que desee -->
+        <!-- <script src="../estilos/DataTables/jquery-3.7.1.min.js"></script>
         <script src="../estilos/DataTables/datatables.min.js"></script>
-
-
+        <script>
+                var tabla = document.querySelector('#tabla');
+                console.log(tabla)
+                new DataTable(tabla, {
+                        order: [
+                                [3, 'desc']
+                        ]
+                })
+        </script> -->
         <!-- funcion onclick eliminar() -->
         <script src="../estilos/js/alert.js"></script>
         <!-- Bootstrap 5 -->

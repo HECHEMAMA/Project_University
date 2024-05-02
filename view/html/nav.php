@@ -81,7 +81,7 @@ if (empty($_SESSION)) {
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Datos</h6>
-                        <!-- <a class="collapse-item" href="../createUser/index.php">Crear Nuevo Usuario</a> -->
+<!--                         <a class="collapse-item" href="../createUser/index.php">Crear Nuevo Usuario</a> -->
                         <a class="collapse-item" href="../usuario/index.php">Empleados</a>
                         <!-- <a class="collapse-item" href="../createUser/roles.php">Roles</a> -->
                     </div>
