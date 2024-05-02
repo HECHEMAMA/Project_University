@@ -37,9 +37,9 @@ $modificacion = new ModificarControllers($_POST['accion'], $_POST['id']);
             <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
                 <!-- Sidebar - Brand -->
                 <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../home/index.php">
-                    <div class="sidebar-brand-icon rotate-n-15">
+                    <!-- <div class="sidebar-brand-icon rotate-n-15">
                         <i class="fas fa-laugh-wink"></i>
-                    </div>
+                    </div> -->
                     <div class="sidebar-brand-text mx-3">BOTIMENDO <sup>2</sup></div>
                 </a>
 
@@ -161,14 +161,14 @@ $modificacion = new ModificarControllers($_POST['accion'], $_POST['id']);
                 private function ejecutarAccion()
                 {
                     $mostrar = match ($this->accion) {
-                        'borrar-cliente'   => ClienteController::borrarCliente($this->getId()),
-                        'editar-cliente'   => ClienteController::formularioEdit($this->getId()),
-                        'borrar-empleado'  => UsuarioController::borrarEmpleado($this->getId()),
-                        'editar-empleado'  => UsuarioController::editarEmpleado($this->getId()),
-                        'borrar-proveedor' => ProveedorController::borrarProveedor($this->getId()),
-                        'editar-proveedor' => ProveedorController::editarProveedor($this->getId()),
-                        'borrar-producto'  => ProductoController::borrarProducto($this->getId()),
-                        'editar-producto'  => ProductoController::editarProducto($this->getId()),
+                        // 'borrar-cliente'   => ClienteController::borrarCliente($this->getId()),
+                        // 'editar-cliente'   => ClienteController::formularioEdit($this->getId()),
+                        // 'borrar-empleado'  => UsuarioController::borrarEmpleado($this->getId()),
+                        // 'editar-empleado'  => UsuarioController::editarEmpleado($this->getId()),
+                        // 'borrar-proveedor' => ProveedorController::borrarProveedor($this->getId()),
+                        // 'editar-proveedor' => ProveedorController::editarProveedor($this->getId()),
+                        // 'borrar-producto'  => ProductoController::borrarProducto($this->getId()),
+                        // 'editar-producto'  => ProductoController::editarProducto($this->getId()),
                     };
                 }
             }

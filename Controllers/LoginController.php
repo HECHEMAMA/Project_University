@@ -12,7 +12,10 @@ render('Login', ['Models']);
  */
 class LoginController
 {
+    public static string $usuario;
+    public static string $rol;
     public static string $error = '';
+    private string $location;
     public function __construct(private $accion, private string $username, private string $password)
     {
         $this->ejecutarAccion();
@@ -21,14 +24,15 @@ class LoginController
     {
         $verificado = $this->validarCampos();
         if ($verificado) {
-            $usuario = Login::buscarUsuario([$this->username]);
+            $usuario = Login::buscarUsuario([lower($this->username)]);
             $error = 'Usuario o Contrasena incorrectos.';
             if (count($usuario) > 0) {
                 foreach ($usuario as $row) {
                     $contrasenaHash = $row['contrasena'];
                 }
                 (verify($this->password, $contrasenaHash))
-                    ? header("location: ../view/home/index.php")
+                    ? $this->sesion($this->username)
+
                     : $this->errorLogin($error);
             }
             $this->errorLogin($error);
@@ -50,6 +54,26 @@ class LoginController
         }
         return true;
     }
+    public function sesion($username)
+    {
+        if (!empty($username)) {
+            $usuario = Login::obtenerRolUsuario($username); // -> Devuelve un FETCH_OBJ
+            session_start();
+            $_SESSION['nombre'] = $usuario->nombre;
+            $_SESSION['apellido'] = $usuario->apellido;
+            $_SESSION['rol'] = firstWord($usuario->tipo_rol);
+            if ($usuario->tipo_rol === 'administrador') {
+                header("location: ../view/home/index.php");
+                // $this->location = '../view/home/index.php';
+            } elseif ($usuario->tipo_rol === 'empleado') {
+                header("location: ../view/home/index.php");
+                // header("location: ../view/empleado/index.php");
+                // $this->location = '../view/empleado/index.php';
+                echo "Wrong";
+            }
+        }
+        die();
+    }
     private function crearSesion()
     {
     }
@@ -65,13 +89,13 @@ class LoginController
 
     public static function getError()
     {
-        return errorAlert(self::$error);
+        // return errorAlert(self::$error);
     }
     private function ejecutarAccion()
     {
         match ($this->accion) {
             'iniciar-sesion' => $this->logear(),
-            default => $this->errorLogin('Accion no valida.'),
+            // default => $this->errorLogin('Accion no valida.'),
         };
     }
 }

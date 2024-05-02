@@ -2,6 +2,8 @@
 require "/opt/lampp/htdocs/project-php/Controllers/render.php";
 render('header', ['view', 'html']);
 render('nav', ['view', 'html']);
+// session_start();
+// if (!empty($_SESSION)) :
 ?>
 
 <body id="page-top">
@@ -177,4 +179,6 @@ render('nav', ['view', 'html']);
         <i class="fas fa-angle-up"></i>
     </a>
 </body>
-<?php render('footer',['view','html']) ?>
+<?php
+render('footer', ['view', 'html']);
+?>

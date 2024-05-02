@@ -42,7 +42,7 @@ class Conexion
         try {
             $stmt = $conn->prepare($query);
             $stmt->execute($params);
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
+            return $stmt->fetch(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
             echo "Query failed: " . $e->getMessage();
             return false;

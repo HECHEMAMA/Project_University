@@ -219,7 +219,7 @@ function tablas(array $headers, array $datos, bool $editar, bool $eliminar, arra
 {
     $idField = 'id';
     // Inicia el HTML de la tabla
-    $html = '<table class="table table-striped w-75">';
+    $html = '<table class="table table-striped w-75 my-5" id="tabla">';
 
     // Encabezados de la tabla
     $html .= '<thead>';
@@ -315,4 +315,11 @@ function selectEtiqueta($data, $name, $id, $selected = null)
     }
     $select .= '</select>';
     return $select;
+}
+function verificarSesion()
+{
+    if (!isset($_SESSION)) {
+        header("Location: ../index.php");
+        exit();
+    }
 }

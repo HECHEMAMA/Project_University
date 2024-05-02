@@ -104,7 +104,7 @@ class UsuarioController
                 try {
                     if ($this->crearPersona()) { // Si el metodo devuelve TRUE entonces se crea el usuario
                         if (Usuario::agregarUsuario($this->getCedula())) { // Usuario creado exitosamente 🤩
-                            header('location: ../view/createUser/index.php');
+                            header('location: ../view/usuario/index.php');
                         } else {
                             echo "No registro el usuario";
                         }
@@ -171,7 +171,7 @@ class UsuarioController
                 try {
                     if ($this->editarEmpleado()) { // Si el metodo devuelve TRUE entonces se actualizo el usuario exitosamente
                         if (Usuario::editarUsuario($this->getCedula())) { // Usuario actualizado exitosamente 🤩
-                            header('location: ../view/createUser/index.php');
+                            header('location: ../view/usuario/index.php');
                         } else {
                             echo "No registro el usuario";
                         }
@@ -229,7 +229,7 @@ class UsuarioController
             $this->cedula = postAsignar('id');
             if (Usuario::borrarUsuario($this->cedula)) {
                 if ($this->borrarEmpleado()) {
-                    header('location: ../view/createUser/index.php');
+                    header('location: ../view/usuario/index.php');
                 } else {
                     die('Se borro el Usuario pero siguen los datos del empleado');
                 }

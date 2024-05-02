@@ -20,6 +20,7 @@ class ClienteController
             'Apellido',
             'Teléfono',
             'Dirección',
+            '',
         ];
         return tablas($header, Cliente::obtenerCliente([], false), true, true, ['ClienteController', 'cliente'], 'edit.php');
     }
@@ -61,9 +62,9 @@ class ClienteController
             $verificado = Cliente::editarCliente();
             if ($verificado) {
                 //  $html = self::alertConfirmacion('Cliente actualizado con exito.');
-                header('location: ../view/Client/index.php');
+                header('location: ../view/cliente/index.php');
             } else {
-                header('location: ../view/Client/edit.php');
+                header('location: ../view/cliente/edit.php');
                 //  $html = self::alertError('Error al actualizar los datos del cliente.');
             }
         }
@@ -74,7 +75,7 @@ class ClienteController
         if (post('id')) {
             $this->cedula = postAsignar('id');
             if ((Cliente::borrarCliente($this->cedula))) {
-                header('location: ../view/Client/index.php');
+                header('location: ../view/cliente/index.php');
             } else {
                 die('Error al Eliminar el cliente.');
             }
@@ -88,9 +89,9 @@ class ClienteController
         if (post('cedula') && post('nombre') && post('apellido') && post('telefono') && post('direccion')) {
             $verificado = Cliente::registrarCliente();
             if ($verificado) {
-                header('location: ../view/Client/index.php');
+                header('location: ../view/cliente/index.php');
             } else {
-                header('location: ../view/Client/cliente.php');
+                header('location: ../view/cliente/cliente.php');
             }
         } else {
             return self::alertError('llene los campos');

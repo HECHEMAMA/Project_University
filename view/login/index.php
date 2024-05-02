@@ -1,5 +1,10 @@
-<?php require '/opt/lampp/htdocs/project-php/Controllers/LoginController.php' ?>
-<?php render('header', ['view', 'html']) ?>
+<?php
+session_start();
+unset($_SESSION);
+session_destroy();
+require '/opt/lampp/htdocs/project-php/Controllers/LoginController.php';
+render('header', ['view', 'html'])
+?>
 
 <body class="bg-gradient-light">
     <div class="container">

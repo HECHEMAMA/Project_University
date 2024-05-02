@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (empty($_SESSION)) {
+    header('Location: ../login/index.php');
+}
+?>
+
 <body id="page-top">
     <!-- Sidebar -->
     <div id="wrapper">
@@ -5,15 +12,18 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../home/index.php">
-                <div class="sidebar-brand-icon rotate-n-15">
+                <!-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">BOTIMENDO <sup>2</sup></div>
+                </div> -->
+                <div class="sidebar-brand-text mx-3">BOTIMENDO <!-- <sup></sup> --></div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0" />
-
+            <div class="sidebar-heading text-light"><?= $_SESSION['rol'] ?></div>
+            <div class="text text-center text-light">
+                <h4 class="h4"><b><?= $_SESSION['nombre'] . ' ' . $_SESSION['apellido'] ?></b> </h4>
+            </div>
             <!-- Divider -->
             <hr class="sidebar-divider" />
 
@@ -45,7 +55,7 @@
             </li>
             <!-- Vender -->
             <li class="nav-item">
-                <a class="nav-link" href="../store/index.php"><i class="bi bi-cart4"></i><span>Vender</span></a>
+                <a class="nav-link" href="../vender/index.php"><i class="bi bi-cart4"></i><span>Vender</span></a>
             </li>
             <!-- Inventario -->
             <li class="nav-item">
@@ -57,7 +67,7 @@
             </li>
             <!-- Clientes -->
             <li class="nav-item">
-                <a href="../Client/index.php" class="nav-link"><i class="bi bi-person"></i><span>Clientes</span></a>
+                <a href="../cliente/index.php" class="nav-link"><i class="bi bi-person"></i><span>Clientes</span></a>
             </li>
             <!-- Heading -->
             <div class="sidebar-heading mt-3">Administración</div>
@@ -72,7 +82,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Datos</h6>
                         <!-- <a class="collapse-item" href="../createUser/index.php">Crear Nuevo Usuario</a> -->
-                        <a class="collapse-item" href="../createUser/index.php">Empleados</a>
+                        <a class="collapse-item" href="../usuario/index.php">Empleados</a>
                         <!-- <a class="collapse-item" href="../createUser/roles.php">Roles</a> -->
                     </div>
                 </div>
