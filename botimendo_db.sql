@@ -20,8 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `botimendo_db`
 --
-CREATE DATABASE 'botimendo_db';
-USE 'botimendo_db';
+CREATE DATABASE botimendo_db;
+USE botimendo_db;
 -- --------------------------------------------------------
 
 --
